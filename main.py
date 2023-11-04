@@ -4,7 +4,7 @@ import config
 
 from pyrogram import Client, filters, idle
 from pyrogram.types import ChatJoinRequest, Message, InlineKeyboardButton, InlineKeyboardMarkup 
-from pyrogram.errors import FloodWait, MessageNotModified, UserIsBlocked, PeerIdInvalid
+from pyrogram.errors import FloodWait, MessageNotModified
 
 logging.basicConfig(
     level=logging.INFO,
@@ -25,22 +25,22 @@ async def run_bot_():
     await app.start()
     await idle()
 
+async def run_ass_():
+    await ass.start()
+
 @app.on_chat_join_request(filters.group & filters.channel)
 async def approval(app: Client, m: ChatJoinRequest):
   user = m.from_user
   chat = m.chat
   if not m.from_user:
         return
-      try:
-          await app.approve_chat_join_request(chat.id, user.id)
-      except FloodWait as e:
+    try:
+        await app.approve_chat_join_request(m.chat.id, m.from_user.id)
+    except FloodWait as e:
         logging.info(f"Sleeping for {e.x + 3} seconds due to floodwaits!")
         await asyncio.sleep(e.x + 3)
-        await app.approve_chat_join_request(chat.id, user.id)
-          try:
-              await app.send_message(user.id, f"Hey {user.mention}👋, Your Request To Join {chat.title} Has Been Accepted!")
-          except (UserIsBlocked, PeerIdInvalid):
-              pass
+        await app.approve_chat_join_request(m.chat.id, m.from_user.id)
+        
 
 @app.on_message(filters.command("start"))
 async def start(app: Client, msg: Message):
