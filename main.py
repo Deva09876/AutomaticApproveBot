@@ -42,7 +42,7 @@ async def approval(app: Client, m: ChatJoinRequest):
 
 @app.on_message(filters.command("start"))
 async def start(app: Client, msg: Message):
-  await message.reply_photo(photo=config.START_IMG, caption=f"Hey {msg.from_user.mention},\nThis Is {app.mention}\n\n> A Powerful Telegram Bot Which Can Accept The User Join Requests Automatically.\n> Just Add Ne In The Chat And Make Me Admin With Proper Rights",
+  await msg.reply_photo(photo=config.START_IMG, caption=f"Hey {msg.from_user.mention},\nThis Is {app.mention}\n\n> A Powerful Telegram Bot Which Can Accept The User Join Requests Automatically.\n> Just Add Ne In The Chat And Make Me Admin With Proper Rights",
                             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"Add {app.name}", url=f"https://t.me/{app.username}?startgroup=true")]])
                            )
 
