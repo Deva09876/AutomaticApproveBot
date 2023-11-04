@@ -31,16 +31,16 @@ async def approval(app: Client, m: ChatJoinRequest):
   chat = m.chat
   if not m.from_user:
         return
-    try
-        await app.approve_chat_join_request(chat.id, user.id)
-    except FloodWait as e:
+      try:
+          await app.approve_chat_join_request(chat.id, user.id)
+      except FloodWait as e:
         logging.info(f"Sleeping for {e.x + 3} seconds due to floodwaits!")
         await asyncio.sleep(e.x + 3)
         await app.approve_chat_join_request(chat.id, user.id)
-    try:
-    await app.send_message(user.id, f"Hey {user.mention}👋, Your Request To Join {chat.title} Has Been Accepted!")
-  except (UserIsBlocked, PeerIdInvalid):
-        pass
+          try:
+              await app.send_message(user.id, f"Hey {user.mention}👋, Your Request To Join {chat.title} Has Been Accepted!")
+          except (UserIsBlocked, PeerIdInvalid):
+              pass
 
 @app.on_message(filters.command("start"))
 async def start(app: Client, msg: Message):
