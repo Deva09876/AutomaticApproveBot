@@ -30,17 +30,15 @@ async def run_ass_():
 
 @app.on_chat_join_request(filters.group & filters.channel)
 async def approval(app: Client, m: ChatJoinRequest):
-  user = m.from_user
-  chat = m.chat
-  if not m.from_user:
+    if not m.from_user:
         return
     try:
         await app.approve_chat_join_request(m.chat.id, m.from_user.id)
     except FloodWait as e:
-        logging.info(f"Sleeping for {e.x + 3} seconds due to floodwaits!")
-        await asyncio.sleep(e.x + 3)
+        logging.info(f"Sleeping for {e.x + 2} seconds due to floodwaits!")
+        await asyncio.sleep(e.x + 2)
         await app.approve_chat_join_request(m.chat.id, m.from_user.id)
-        
+
 
 @app.on_message(filters.command("start"))
 async def start(app: Client, msg: Message):
