@@ -1,0 +1,38 @@
+{
+    "name": "Auto approve requests",
+    "description": "",
+    "logo": "",
+    "keywords": [
+        "AutoApproveRequests"
+    ],
+    "repository": "https://github.com/Deva09876/AutomaticApproveBot",
+    "website": "",
+    "success_url": "https://t.me/Dadeyebotz",
+    "env": {
+        "API_HASH": {
+            "description": "Your API HASH from my.telegram.org",
+            "value": ""
+        },
+        "API_ID": {
+            "description": "Your API ID from my.telegram.org",
+            "value": ""
+        },
+        "OWNER": {
+            "description": "owner user id",
+            "value": ""
+        },
+        "BOT_TOKEN": {
+            "description": "BOT TOKEN.",
+            "value": ""
+        },
+        "SESSION": {
+            "description": "STRING SESSION.",
+            "value": ""
+        }
+    },
+    "buildpacks": [
+        {
+            "url": "heroku/python"
+        }
+    ]
+}
