@@ -1,4 +1,4 @@
-import os, asyncio, logging, random
+import os, asyncio, logging, random, traceback
 
 import config
 
@@ -97,12 +97,7 @@ async def fcast(app: Client, m : Message):
     
 
 print(f"Starting {app.name}")
-app.run()
-                           
-
-
-
-
-  
-
-
+try:
+    app.run()
+except:
+    traceback.print_exc()
