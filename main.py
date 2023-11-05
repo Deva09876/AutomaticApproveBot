@@ -25,14 +25,14 @@ welcome=[
 # Approve request
 @app.on_chat_join_request()
 async def approval(app: Client, m: ChatJoinRequest):
-    user = m.from_user
-    chat = m.chat
+    usr = m.from_user
+    cht = m.chat
     try:
-        add_group(m.chat.id)
-        await app.approve_chat_join_request(chat.id, user.id)
+        add_group(cht.id)
+        await app.approve_chat_join_request(cht.id, usr.id)
         gif = random.choice(welcome)
-        await app.send_animation(animation=gif, caption=f"Hey There {user.first_name}\nWelcome To {chat.title}", chat_id=user.id)
-        add_user(user.id)
+        await app.send_animation(animation=gif, caption=f"Hey There {usr.first_name}\nWelcome To {cht.title}", chat_id=user.id)
+        add_user(usr.id)
     except (UserIsBlocked, PeerIdInvalid):
         pass
     except Exception as err:
@@ -60,9 +60,9 @@ async def gc(app: Client, msg: Message):
 # Stats 
 @app.on_message(filters.command("stats"), filters.user(config.OWNER_ID))
 async def stat(app: Client, msg: Message):
-    user = all_users()
-    chat = all_groups()
-    await message.reply_text(text=f"Statistics Of {app.me.mention}/n> Users: {user}/n> Chats: {chat}")
+    usr = all_users()
+    cht = all_groups()
+    await message.reply_text(text=f"Statistics Of {app.me.mention}/n> Users: {usr}/n> Chats: {cht}")
 
 #broadcast
 @app.on_message(filters.command("broadcast") & filters.user(config.OWNER_ID))
