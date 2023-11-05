@@ -84,7 +84,7 @@ async def fcast(app: Client, m : Message):
             await asyncio.sleep(ex.value)
             if m.command[0] == "broadcast":
                 await m.reply_to_message.forward(int(userid))
-            except errors.InputUserDeactivated:
+        except errors.InputUserDeactivated:
             deactivated +=1
             remove_user(userid)
         except errors.UserIsBlocked:
