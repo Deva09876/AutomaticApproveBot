@@ -4,25 +4,12 @@ import config
 
 from pyrogram import Client, filters, idle
 from pyrogram.types import ChatJoinRequest, Message, InlineKeyboardButton, InlineKeyboardMarkup 
-from pyrogram.errors import FloodWait, MessageNotModified, UserIsBlocked, PeerIdInvalid, ChatAdminRequired
+from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, PeerIdInvalid, ChatAdminRequired
 
 from database import add_user, add_group, all_users, all_groups, users, remove_user
 
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
-    datefmt="%d-%b-%y %H:%M:%S",
-    handlers=[
-        logging.FileHandler("log.txt"),
-        logging.StreamHandler(),
-    ],
-)
-
-logging.getLogger("pyrogram").setLevel(logging.ERROR)
-
 app = Client("Approve Bot", api_id=config.API_ID, api_hash=config.API_HASH, bot_token=config.BOT_TOKEN)
-ass = Client("Approve Ass", api_id=config.API_ID, api_hash=config.API_HASH, session_string=config.SESSION)
 
 welcome=[
     "https://telegra.ph/file/d340ee8523e4d4d850915.mp4",
@@ -33,12 +20,7 @@ welcome=[
     "https://telegra.ph/file/ced57d72071f4366cd326.mp4"
 ]
 
-async def run_bot_():
-    await app.start()
-    await idle()
 
-async def run_ass_():
-    await ass.start()
 
 # Approve request
 @app.on_chat_join_request(filters.group | filters.channel & ~filters.private)
@@ -95,17 +77,17 @@ async def fcast(app: Client, m : Message):
         try:
             userid = usrs["user_id"]
             #print(int(userid))
-            if m.command[0] == "fcast":
+            if m.command[0] == "broadcast":
                 await m.reply_to_message.forward(int(userid))
             success +=1
         except FloodWait as ex:
             await asyncio.sleep(ex.value)
-            if m.command[0] == "fcast":
+            if m.command[0] == "broadcast":
                 await m.reply_to_message.forward(int(userid))
-        except errors.InputUserDeactivated:
+            except InputUserDeactivated:
             deactivated +=1
             remove_user(userid)
-        except errors.UserIsBlocked:
+        except UserIsBlocked:
             blocked +=1
         except Exception as e:
             print(e)
@@ -115,8 +97,7 @@ async def fcast(app: Client, m : Message):
     
 
 print(f"Starting {app.name}")
-if __name__ == "__main__":
-    app.loop.run_until_complete(run_bot_())
+app.run()
                            
 
 
