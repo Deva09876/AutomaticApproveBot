@@ -23,7 +23,7 @@ welcome=[
 
 
 # Approve request
-@app.on_chat_join_request(filters.group | filters.channel & ~filters.private)
+@app.on_chat_join_request(filters.group | filters.channel)
 async def approval(app: Client, m: ChatJoinRequest):
     user = m.from_user
     chat = m.chat
