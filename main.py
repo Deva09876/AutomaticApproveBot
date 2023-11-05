@@ -30,7 +30,7 @@ async def run_ass_():
 
 @app.on_chat_join_request(filters.group & filters.channel)
 async def approval(app: Client, m: ChatJoinRequest):
-    if not m.from_user:
+    if m.from_user:
         return
     try:
         await app.approve_chat_join_request(m.chat.id, m.from_user.id)
